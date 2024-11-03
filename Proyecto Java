@@ -1,0 +1,142 @@
+ //Nombre del Paquete
+package com.mycompany.p1tarea1aguaviltania;
+import java.util.Scanner;//Libreria para pedir datos al usuario por teclado
+import java.io.FileWriter; // Librería para escribir archivos
+import java.io.IOException; // Librería para manejo de excepciones
+import com.opencsv.CSVWriter; // Librería para crear archivos CSV
+
+public class P1Tarea1AguavilTania {
+    //Definir variables globales dentro de la funcion principal
+    float Tarea1Ag,Tarea2Ag,Tarea3Ag,PromedioAg;
+    String NombreJsonAg,EstadoEstudianteAg,NombreCsvAg;
+    //Declaracion de forma global
+    Scanner Scanner=new Scanner(System.in);//Instanciar Objeto a Scanner para leer la entrada del usuario
+    public static void main(String[] args) {
+        P1Tarea1AguavilTania Calificaciones=new P1Tarea1AguavilTania();//Crear una instancia de la clase
+      Calificaciones.MenuAg();//Llama al metodo Menu para iniciar el programa
+    }
+public void MenuAg(){
+ int OpcMenuAg;//Variable para almacenar la opcion del menu  
+//Mostrar Menu Principal
+System.out.println("==============================="); 
+System.out.println("MENU PRINCIPAL"); 
+System.out.println("1.Ingresar calificaciones"); 
+System.out.println("2.Mostrar Promedio"); 
+System.out.println("3.Slir"); 
+System.out.println("-------------------------------"); 
+System.out.println("Ingrese la opcion:"); 
+OpcMenuAg=Scanner.nextInt();
+//Estructura de control para ejecutar las opciones del menu una vez seleccionada la opcion 
+        switch (OpcMenuAg) {
+            case 1:
+                IngresarNotasAg();
+                MenuAg();
+                break;
+            case 2:
+                MostrarNotasAg();
+                MenuAg();
+                break;
+            case 3:
+                System.out.println("Saliendo del programa...");
+                break;
+            default:
+                System.out.println("Error,Ingrese nuevamente la opcion(1-3)");
+                MenuAg();
+                break;
+        }
+}
+//Void para el ingreso de calificaciones
+public void IngresarNotasAg(){
+System.out.println("--------------------------"); 
+System.out.println("INGRESO DE CALIFICACIONES"); 
+//Ingresar nota 1
+System.out.println("Tarea 1:"); 
+Tarea1Ag=Scanner.nextFloat();
+ //Validar calificaciones en el rango correspondiente entre(0-20)
+while(Tarea1Ag<0 || Tarea1Ag>20){ //Validacion utilizando While
+    System.out.println("Error,ingrese nuevamemte entre 0-20:");
+    //Pide ingresar nuevamente el valor 
+    Tarea1Ag=Scanner.nextFloat();
+}
+//Ingresar nota 2
+System.out.println("Tarea 2:"); 
+Tarea2Ag=Scanner.nextFloat();
+while(Tarea2Ag<0 || Tarea2Ag>20){ //Validacion utilizando While
+    System.out.println("Error,ingrese nuevamemte entre 0-20:");
+    //Pide ingresar nuevamente el valor 
+    Tarea2Ag=Scanner.nextFloat();
+}
+//Ingresar nota 3
+System.out.println("Tarea 3:"); 
+Tarea3Ag=Scanner.nextFloat();  
+while(Tarea3Ag<0 || Tarea3Ag>20){ //Validacion utilizando While
+    System.out.println("Error,ingrese nuevamemte entre 0-20:");
+    //Pide ingresar nuevamente el valor 
+    Tarea3Ag=Scanner.nextFloat();
+}
+}
+//void para mostrar calificaciones
+public void MostrarNotasAg(){
+ //Formula para calcular el promedio total
+    PromedioAg=(Tarea1Ag+Tarea2Ag+Tarea3Ag)/3;
+    //Variable para el estado del estudiante Aprobado/Reprobado
+    EstadoEstudianteAg = (PromedioAg>= 14) ? "APROBADO" : "REPROBADO";
+    System.out.println("--------------------------------");
+    System.out.println("MOSTRAR PROMEDIO:");
+    //Mostrar el promedio
+    System.out.println("PROMEDIO:"+PromedioAg);
+    System.out.println("Aprobado/Reprobado:");
+    System.out.println("ESTUDIANTE:"+EstadoEstudianteAg);
+    // Determina si el estudiante ha aprobado o reprobado según el promedio
+    if (PromedioAg<14){
+        System.out.println("REPROBADO");
+    }else{
+        System.out.println("APROBADO");
+    } 
+    CrearArchivoJsonAg();//Llamar a la funcion crear Json para crear el Archivo
+    CrearArchivoCsvAg();//Llamar a la funcion crea Csv para crear el Archivo
+    
+}
+//Crear Archivos de texto para Json Creado manualmente
+void CrearArchivoJsonAg(){
+ System.out.println("Ingrese el nombre del Archivo Formato Json que desea guardar:");
+ NombreJsonAg=Scanner.next();//variable  para guardar el Archivo Json
+    try (FileWriter writer = new FileWriter(NombreJsonAg + ".json")) {
+         writer.write("{\n");
+            writer.write("  \"Tarea 1\": " + Tarea1Ag+ ",\n");
+            writer.write("  \"Tarea 2\": " + Tarea2Ag+ ",\n");
+            writer.write("  \"Tarea 3\": " + Tarea3Ag+ ",\n");
+            writer.write("  \"Promedio\": " + PromedioAg + ",\n");
+            writer.write("  \"Estado Estudiante\": \"" + EstadoEstudianteAg+ "\"\n");
+            writer.write("}");
+        System.out.println("Archivo JSON creado exitosamente.");
+    } catch (IOException e) {
+        System.out.println("Error al guardar el archivo en JSON.");
+        e.printStackTrace(); 
+    
+    }
+}
+
+void CrearArchivoCsvAg(){
+System.out.println("Ingrese el nombre del Archivo CSV que desea guardar:");
+    NombreCsvAg = Scanner.next(); // Variable para guardar el nombre del archivo CSV
+    // Usando CSVWriter para crear el archivo CSV
+    try (CSVWriter writer = new CSVWriter(new FileWriter(NombreCsvAg+ ".csv"))) {
+        // Definicion de encabezados
+        String[] encabezados = { "Tarea 1", "Tarea 2", "Tarea 3", "Promedio Estudiante", "Estado Estudiante" };
+        // Escribe encabezados en el archivo CSV
+        writer.writeNext(encabezados);
+        // Crea un arreglo con los datos
+        String[] datosEstudiantes= { String.valueOf(Tarea1Ag), String.valueOf(Tarea2Ag), String.valueOf(Tarea3Ag), 
+                           String.valueOf(PromedioAg), EstadoEstudianteAg};
+        // Escribe los datos en el archivo CSV
+        writer.writeNext(datosEstudiantes);
+
+        System.out.println("Archivo CSV creado exitosamente.");
+    } catch (IOException e) {
+        System.out.println("Error al guardar el archivo en CSV.");
+        e.printStackTrace();
+    }
+}
+}
+
