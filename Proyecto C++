@@ -1,0 +1,112 @@
+#include <iostream>  //Libreria principal para entrada y salida de datos
+#include <fstream>   //Libreria paara tarbajar con Archivos
+using namespace std;
+//Definicion de subprogramas
+void MenuAg();
+void IngresarNotasAg();
+void MostrarNotasAg();
+void CrearArchivoTxtAg();
+//DEFINIR VARIABLES DE FORMA GLOBAL
+float Tarea1Ag,Tarea2Ag,Tarea3Ag,PromedioAg;
+//Main funcion principal
+int main()
+{
+    MenuAg();//Llamar a la funcion menu
+    return 0;//fin del programa
+}
+//Void Menu Principal
+void MenuAg(){
+    int opcMenuAg;//Variable Llocal para ejecutar las opciones del menu
+    cout << "=====================================" << endl;
+    cout << "MENU PRINCIPAL" << endl;
+    cout << "1.Ingresar calificaciones" << endl;
+    cout << "2.Mostrar Promedio" << endl;
+    cout << "3.Salir del programa" << endl;
+    cout << "....................................." << endl;
+    cout << "Ingrese la opcion:" << endl;
+    cin>>opcMenuAg;
+ switch(opcMenuAg){
+ case 1:
+   IngresarNotasAg();
+   MenuAg();//Recursividad llamar al menu
+ break;
+ case 2:
+   MostrarNotasAg();
+   MenuAg();//llamar al menu
+ break;
+ case 3:
+   cout << "Saliendo del Programa....." << endl;
+   return;
+ break;
+default:cout <<"Error,Ingrese nuevamente la opcion(1-3):" << endl;
+   MenuAg();//llamar al menu
+ }
+ }
+//Void para el ingreso de calificaciones
+void IngresarNotasAg(){
+ cout <<"-------------------------" << endl;
+ cout <<"INGRESO DE CALIFICACIONES:" << endl;
+ //Ingrsar calificaciones
+ cout <<"Tarea 1:" << endl;
+ cin>>Tarea1Ag;
+ //Validar calificaciones en el rango correspondiente entre(0-20)
+ while (Tarea1Ag<0 || Tarea1Ag>20){
+    cout <<"Error,ingrese nuevamemte entre 1-20:" << endl;
+    cin>>Tarea1Ag;
+ }
+ cout <<"Tarea 2:" << endl;
+ cin>>Tarea2Ag;
+  //Validar calificaciones en el rango correspondiente entre(0-20)
+ while (Tarea2Ag<0 || Tarea2Ag>20){
+    cout <<"Error,ingrese nuevamemte entre 1-20:" << endl;
+    cin>>Tarea2Ag;
+ }
+ cout <<"Tarea 3:" << endl;
+ cin>>Tarea3Ag;
+  //Validar calificaciones en el rango correspondiente entre(0-20)
+ while (Tarea3Ag<0 || Tarea3Ag>20){
+    cout <<"Error,ingrese nuevamemte entre 1-20:" << endl;
+    cin>>Tarea3Ag;
+ }
+
+}
+//void para mostar calificaciones
+void MostrarNotasAg(){
+    //Formula para calcular el promedio total
+    PromedioAg=(Tarea1Ag+Tarea2Ag+Tarea3Ag)/3;
+    cout <<"--------------------------------:" << endl;
+    cout<<"MOSTRAR PROMEDIO:" << endl;
+    //Mostrar el promedio
+    cout <<"PROMEDIO:"<<PromedioAg<< endl;
+    cout <<"Aprobado/Reprobado:"<<endl;
+    cout <<"ESTUDIANTE::"<<endl;
+    // Determina si el estudiante ha aprobado o reprobado según el promedio
+    if (PromedioAg<14){
+        cout<<"REPROBADO"<<endl;
+    }else{
+        cout<<"APROBADO"<<endl;
+    }
+//llamar al void CrearArchivoAguavil para guardar datos
+CrearArchivoTxtAg();
+}
+//void para crear Archivo Txt
+void CrearArchivoTxtAg(){
+string NombreAg;
+ cout <<"Ingrese el nombre del Archivo que desea guardar:" << endl;
+ cin>>NombreAg;
+ ofstream Archivo(NombreAg,ios::app);
+ if(Archivo.is_open()){
+ Archivo<<"------------------------" << endl;
+ Archivo<<"INGRESO DE CALIFICACIONES:" << endl;
+ Archivo<<"Tarea 1:" <<Tarea1Ag<<endl;
+ Archivo<<"Tarea 2:" <<Tarea2Ag<<endl;
+ Archivo<<"Tarea 3:" <<Tarea3Ag<<endl;
+ Archivo<<"-------------------------:"<<endl;
+ Archivo<<"Mostrar Promedio:"<< endl;
+ Archivo<<"PROMEDIO:"<<PromedioAg<< endl;
+ Archivo.close();
+    cout <<"El Archivio"<<""<<NombreAg<<""<<"Se guardo correctamente"<<endl;
+ }else{
+    cout <<"Error al Guardar el Archivo"<<endl;
+ }
+ }
